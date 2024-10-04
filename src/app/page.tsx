@@ -1,4 +1,3 @@
-// import '../app/globals.css';
 import Image from "next/image";
 import Link from "next/link";
 import Team from "../features/home-page/team";
@@ -12,7 +11,7 @@ const Home = () => {
       </div>
 
       <Image 
-        src="/assets/images/clouds.png" // Ensure this path is correct relative to 'public'
+        src="/assets/images/clouds.png" 
         alt="My Icon"
         width={450} 
         height={450} 
