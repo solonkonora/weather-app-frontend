@@ -1,5 +1,4 @@
 // src/api/auth.ts
-
 interface UserData {
     username: string;
     password: string;
