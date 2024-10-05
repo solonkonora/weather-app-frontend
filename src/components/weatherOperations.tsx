@@ -1,4 +1,3 @@
-// app/components/WeatherOperations.tsx
 import React, { useState } from 'react';
 import WeatherData from './weatherData'; // Import WeatherData component
 
@@ -11,8 +10,8 @@ interface Weather {
 }
 
 const WeatherOperations: React.FC = () => {
-  const [city, setCity] = useState<string>('New York'); // Default city
-  const [weather, setWeather] = useState<Weather | null>(null);
+  const [city, setCity] = useState<string>(''); // Default to empty string
+  const [weather, setWeather] = useState<Weather | null>(null); // Initialize as null
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,8 +20,9 @@ const WeatherOperations: React.FC = () => {
     try {
       setLoading(true);
       setError(null);
+      setWeather(null); // Clear previous weather data
 
-      const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your API key
+      const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY; // Correct way to access env variable
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
       );
@@ -39,6 +39,7 @@ const WeatherOperations: React.FC = () => {
         humidity: data.main.humidity,
         windSpeed: data.wind.speed,
       });
+
       setLoading(false);
     } catch (err) {
       setError((err as Error).message);
@@ -52,31 +53,61 @@ const WeatherOperations: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
-      <h2 className="text-xl font-semibold mb-4">Search Weather by City</h2>
-      <form onSubmit={handleSearch} className="flex gap-2 justify-center mb-4">
-        <input
-          type="text"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-          placeholder="Enter city"
-          className="p-2 border rounded-md w-full"
-        />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Search
-        </button>
-      </form>
+    <div
+    className="bg-cover bg-center min-h-screen w-full flex justify-center items-center"
+    style={{
+      backgroundImage:
+        "url('https://images.unsplash.com/photo-1518837695005-2083093ee35b?auto=format&fit=crop&w=1650&q=80')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    }}
+/* <div
+  className="bg-cover bg-center min-h-screen w-full flex justify-center items-center"
+  style={{
+    backgroundImage:
+      "url('https://images.unsplash.com/photo-1710609942195-b9dab8f48fc6?q=80&w=1527&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  }} */
+>
+  <div className="bg-black bg-opacity-50 p-6 rounded-lg shadow-lg w-2/3 h-2/3 flex flex-col justify-center">
+    <h2 className="text-2xl font-semibold text-white mb-6 text-center">
+      Search Weather by City
+    </h2>
+    <form onSubmit={handleSearch} className="flex gap-2 justify-center mb-6">
+      <input
+        type="text"
+        value={city}
+        onChange={(e) => setCity(e.target.value)}
+        placeholder="Enter city"
+        className="p-2 border rounded-md w-full"
+      />
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+      >
+        Search
+      </button>
+    </form>
 
-      {/* Error or Loading */}
-      {loading && <div className="text-gray-500">Loading...</div>}
-      {error && <div className="text-red-500">Error: {error}</div>}
+    {/* Loading state */}
+    {loading && <div className="text-gray-500 text-center">Loading...</div>}
 
-      {/* Pass weather data to WeatherData component */}
-      {weather && <WeatherData weather={weather} />}
-    </div>
+    {/* Error state */}
+    {error && <div className="text-red-500 text-center">Error: {error}</div>}
+
+    {/* Render WeatherData only after a successful search */}
+    {weather && (
+      <div>
+        <h3 className="text-lg font-semibold text-white mb-4 text-center">
+          Weather in {city}
+        </h3>
+        <WeatherData weather={weather} />
+      </div>
+    )}
+  </div>
+</div>
+
   );
 };
 

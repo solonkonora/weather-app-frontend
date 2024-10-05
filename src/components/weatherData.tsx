@@ -14,12 +14,12 @@ interface WeatherProps {
 const WeatherData: React.FC<WeatherProps> = ({ weather }) => {
   return (
     <div className="text-center mt-6">
-      <h3 className="text-2xl font-bold">Weather in Your City</h3>
-      <img src={weather.icon} alt={weather.description} className="mx-auto my-4" />
-      <p className="text-lg">Temperature: {weather.temperature}°C</p>
-      <p className="text-lg">Description: {weather.description}</p>
-      <p className="text-lg">Humidity: {weather.humidity}%</p>
-      <p className="text-lg">Wind Speed: {weather.windSpeed} m/s</p>
+      <h3 className="text-2xl font-bold text-blue-700">Weather in Your City</h3>
+      <img src={weather.icon} alt={weather.description} className="mx-auto my-4 w-52 h-52" />
+      <p className="text-lg text-yellow-400">Temperature: {weather.temperature}°C</p>
+      <p className="text-lg text-yellow-400">Description: {weather.description}</p>
+      <p className="text-lg text-yellow-400">Humidity: {weather.humidity}%</p>
+      <p className="text-lg text-yellow-400">Wind Speed: {weather.windSpeed} m/s</p>
     </div>
   );
 };

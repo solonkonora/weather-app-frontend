@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { baseUrlF, loginUrl } from "@/src/providers/constants/constants";
+import { loginUrl } from "@/src/providers/constants/constants";
 import { useRouter } from "next/navigation";
 import Spinner from "@/src/components/molecules/spinners";
 import Link from "next/link";
@@ -90,7 +90,6 @@ const LoginForm = () => {
 
         if (token) {
             localStorage.setItem("token", token);
-            console.log("Token set. Redirecting to dashboard...");
             notify();
             router.push('/dashboards');
         } else {
