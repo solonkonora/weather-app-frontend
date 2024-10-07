@@ -127,7 +127,7 @@ const RegistrationForm = () => {
               name="username"
               value={values.username}
               onChange={handleValues}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-purple-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:blue-purple-500"
               required
             />
             {errors.username && <p className="error-message text-red-500">{errors.username}</p>}
@@ -145,7 +145,7 @@ const RegistrationForm = () => {
               name="email"
               value={values.email}
               onChange={handleValues}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-500"
+              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-blue-400"
               required
             />
             {errors.email && <p className="error-message text-red-500">{errors.email}</p>}

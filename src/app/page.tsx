@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Team from "../features/home-page/team";
+// import Team from "../features/home-page/team";
 
 const Home = () => {
   return (
@@ -11,7 +11,7 @@ const Home = () => {
       </div>
 
       <Image 
-        src="/assets/images/clouds.png" 
+        src="/assets/images/drizzle.png" 
         alt="My Icon"
         width={450} 
         height={450} 
@@ -31,11 +31,11 @@ const Home = () => {
         </Link>
       </div>
 
-      <div className="flex items-center pt-10">
+      {/* <div className="flex items-center pt-10">
         <p className="text-gray-500 text-4xl">Meet The Developer</p>
-      </div>
+      </div> */}
 
-      <Team />
+      {/* <Team /> */}
     </main>
   );
 };

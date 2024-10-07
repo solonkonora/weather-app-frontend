@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Navbar from '@/src/components/navbar';
 import Operations from '../../components/weatherOperations';
 // import WeatherData from '../../components/weatherData';
 // import ProtectedRoute from '../../components/ProtectedRoute';
@@ -15,6 +16,7 @@ const Dashboard = () => {
     //   </div>
     // </ProtectedRoute> */}
     <div className="dashboard-container">
+         <Navbar />
          <Operations />
        </div>
 
