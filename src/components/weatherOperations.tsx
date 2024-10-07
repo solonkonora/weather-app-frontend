@@ -66,6 +66,9 @@ const WeatherOperations: React.FC = () => {
   style={{
     backgroundImage:
       "url('https://images.unsplash.com/photo-1710609942195-b9dab8f48fc6?q=80&w=1527&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+    or try this
+    "url('https://images.unsplash.com/photo-1687393581999-cd26923b8aba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDg4fHx8ZW58MHx8fHx8')",
+    "url('https://images.unsplash.com/photo-1623684003870-fca853da2d21?q=80&w=1534&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   }} */

@@ -103,72 +103,71 @@ const LoginForm = () => {
 };
   
 
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-100">
-      <div className="bg-white shadow-md rounded-lg p-8 w-90 shadow-blue-400">
-        <h2 className="text-2xl font-bold mb-6 text-center">Log In</h2>
-        <form>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={values.email}
-              onChange={handleValues}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-purple-500"
-              required
-            />
-            {errors.email && (
-              <p className="error-message text-red-500">{errors.email}</p>
-            )}
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={values.password}
-              onChange={handleValues}
-              className="mt-1 block w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring focus:ring-purple-500"
-              required
-            />
-            {errors.password && (
-              <p className="error-message text-red-500">{errors.password}</p>
-            )}
-          </div>
-
-          <button
-            disabled={isLoading}
-            type="submit"
-            className="disabled:bg-slate-400 disabled:hover:cursor-wait w-full bg-blue-400 text-white font-semibold py-2 rounded-md hover:bg-blue-600 transition duration-200"
-            onClick={handleLogin}
+return (
+  <div className="flex items-center justify-center min-h-screen bg-blue-100">
+    <div className="bg-white shadow-md rounded-lg p-10 w-96 shadow-blue-400"> {/* Changed w-90 to w-96 for a wider form */}
+      <h2 className="text-3xl font-bold mb-8 text-center">Log In</h2> {/* Increased the heading size */}
+      <form>
+        <div className="mb-6"> {/* Increased margin-bottom */}
+          <label
+            htmlFor="email"
+            className="block text-lg font-medium text-gray-700"
           >
-            {isLoading ? <Spinner /> : "Login"}
-          </button>
-        </form>
-        <p className="text-sm text-gray-800 mt-4">
-          Don't have an account?{" "}
-          <Link href="/register" className="text-blue-400 hover:text-blue-600">
-            Register
-          </Link>
-        </p>
-      </div>
-      <Toast />
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={values.email}
+            onChange={handleValues}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring focus:ring-blue-400"
+          />
+          {errors.email && (
+            <p className="error-message text-red-500 text-sm">{errors.email}</p> 
+          )}
+        </div>
+
+        <div className="mb-6"> 
+          <label
+            htmlFor="password"
+            className="block text-lg font-medium text-gray-700" 
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={values.password}
+            onChange={handleValues}
+            className="mt-1 block w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring focus:ring-blue-400" 
+          />
+          {errors.password && (
+            <p className="error-message text-red-500 text-sm">{errors.password}</p> 
+          )}
+        </div>
+
+        <button
+          disabled={isLoading}
+          type="submit"
+          className="disabled:bg-slate-400 disabled:hover:cursor-wait w-full bg-blue-400 text-white font-semibold py-3 rounded-md hover:bg-blue-600 transition duration-200" 
+          onClick={handleLogin}
+        >
+          {isLoading ? <Spinner /> : "Login"}
+        </button>
+      </form>
+      <p className="text-lg text-gray-800 mt-4"> 
+        Don't have an account?{" "}
+        <Link href="/register" className="text-blue-400 hover:text-blue-600">
+          Register
+        </Link>
+      </p>
     </div>
-  );
+    <Toast />
+  </div>
+);
+
 };
 
 export default LoginForm;
