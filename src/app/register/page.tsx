@@ -97,11 +97,12 @@ const RegistrationForm = () => {
 
       if (token) {
         localStorage.setItem("token", token);
-        notifySuccess("successfully Registered");
-        router.push("/dashboard");
-      } else {
-        notifyError("Registration failed. No token returned.");
-      }
+       } 
+      notifySuccess("successfully Registered");
+
+      // Redirect to the login page after successful registration
+      router.push("/login")
+
     } catch (error) {
       console.error("Registration Error:", error);
       notifyError("An error occurred during registration.");

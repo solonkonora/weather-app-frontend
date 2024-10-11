@@ -1,48 +1,36 @@
-import Image from "next/image";
 import Link from "next/link";
-// import Team from "../features/home-page/team";
-
 
 const Home = () => {
   return (
-    // <main className="w-full h-full bg-blue-100 flex flex-col items-center justify-start"
     <main
-    style={{ backgroundImage: `url('/assets/images/sky.jpg')` }}
-    className="w-full h-full bg-cover bg-center flex flex-col items-center justify-start min-h-[calc(100vh-4rem)] pt-8"
-  >
+      style={{ backgroundImage: `url('/assets/images/house2.jpg')` }}
+      className="min-h-screen w-full bg-cover bg-center flex flex-col items-center justify-start pt-8"
+    >
+      <div className="relative flex flex-col gap-4 items-center pt-8 mt-24">
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black opacity-50 z-0 rounded-full"></div>
 
-      <div className="flex flex-col gap-4 items-center pt-8">
-        <p className="text-blue-800 font-bold text-7xl">Welcome To A Weather App</p>
-        {/* <p className="text-blue-800 font-semibold text-3xl">Weather App by N.N.S</p> */}
+        <div className="relative z-10">
+          <p className="text-white font-bold text-5xl md:text-6xl lg:text-7xl text-center ml-5 mr-5">
+            Open Weather
+          </p>
+          <p className="text-white font-semibold text-xl md:text-2xl lg:text-3xl text-center mb-7">
+            Precisely for you!
+          </p>
+        </div>
       </div>
 
-      <Image
-        src="/assets/images/clearicon.png"
-        alt="My Icon"
-        width={450}
-        height={450}
-        priority
-      />
 
-      <div className="flex flex-col w-[80%] items-center pb-10 border-b-2 border-yellow-600">
-        <p className="text-black text-2xl">
-          View, track, and properly plan your day
-        </p>
-
+      <div className="flex flex-col w-[90%] md:w-[80%] lg:w-[60%] items-center">
         <Link
           href="/login"
-          className="bg-yellow-600 text-black text-3xl px-16 py-2 rounded-md mt-6"
+          className="bg-white text-chacoal text-xl md:text-2xl lg:text-3xl px-8 md:px-12 lg:px-16 py-2 rounded-full mt-20 md:mt-32 lg:mb-40 font-bold"
         >
           Get Started
         </Link>
       </div>
-
-      {/* <div className="flex items-center pt-10">
-        <p className="text-gray-500 text-4xl">Meet The Developer</p>
-      </div> */}
-
-      {/* <Team /> */}
     </main>
+
   );
 };
 

@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import WeatherData from './weatherData';
 import { useWeatherContext } from '../context/WeatherContext';
-// import Forecast from './forecast';
-// import Link from 'next/dist/client/link';
 
 interface Weather {
   temperature: number;
@@ -16,7 +14,7 @@ const WeatherOperations: React.FC = () => {
   const [weather, setWeather] = useState<Weather | null>(null); // Initialize as null
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [backgroundImage, setBackgroundImage] = useState<string>('/assets/images/sky.jpg'); // Set default image initially, State to store background image URL
+  const [backgroundImage, setBackgroundImage] = useState<string>('/assets/images/house3.jpg'); // Set default image initially, State to store background image URL
 
   const { city, setCity } = useWeatherContext();
 
@@ -34,7 +32,7 @@ const WeatherOperations: React.FC = () => {
       case 'moderate rain':
         return '/assets/images/drizzle.png';
       case 'clear sky':
-        return '/assets/images/sunny.png';
+        return '/assets/images/sunny.jpg';
       case 'few clouds':
         return '/assets/images/clear.png';
       case 'overcast clouds':
@@ -44,7 +42,7 @@ const WeatherOperations: React.FC = () => {
       case 'light snow':
         return '/assets/images/snow.jpg';
       default:
-        return '/assets/images/sky.jpg';
+        return '/assets/images/drizzle.png';
     }
   };
 
@@ -118,7 +116,7 @@ const WeatherOperations: React.FC = () => {
           />
           <button
             type="submit"
-            className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+            className="bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600"
           >
             Search
           </button>
@@ -139,10 +137,6 @@ const WeatherOperations: React.FC = () => {
             <WeatherData weather={weather} />
           </div>
         )}
-        {/* <Link href="/forecast?city=${city}" className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-          View Forecast
-        </Link> */}
-
       </div>
     </div>
   );
