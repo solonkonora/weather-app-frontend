@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="space-x-4">
           <Link href="/" className="text-white hover:text-gray-400 transition duration-300">Home</Link>
           <Link href="dashboards" className="text-white hover:text-gray-400 transition duration-300">Dashboard</Link>
-          <Link href="history" className="text-white hover:text-gray-400 transition duration-300">Details</Link>
+          <Link href="charts" className="text-white hover:text-gray-400 transition duration-300">Charts</Link>
         </div>
       </div>
     </nav>

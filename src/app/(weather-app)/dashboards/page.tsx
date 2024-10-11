@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Navbar from '@/src/components/navbar';
-import Operations from '../../components/weatherOperations';
+import Operations from '../../../components/weatherOperations';
 
 const Dashboard = () => {
   return (
@@ -10,8 +10,6 @@ const Dashboard = () => {
       <Navbar />
       <Operations />
     </div>
-
-
   );
 };
 

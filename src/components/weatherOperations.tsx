@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import WeatherData from './weatherData';
+import { useWeatherContext } from '../context/WeatherContext';
+// import Forecast from './forecast';
+// import Link from 'next/dist/client/link';
 
 interface Weather {
   temperature: number;
@@ -10,11 +13,12 @@ interface Weather {
 }
 
 const WeatherOperations: React.FC = () => {
-  const [city, setCity] = useState<string>(''); // Default to empty string
   const [weather, setWeather] = useState<Weather | null>(null); // Initialize as null
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [backgroundImage, setBackgroundImage] = useState<string>('/assets/images/sky.jpg'); // Set default image initially, State to store background image URL
+
+  const { city, setCity } = useWeatherContext();
 
   // Function to map weather conditions to background images
   const getBackgroundImage = (description: string) => {
@@ -61,6 +65,7 @@ const WeatherOperations: React.FC = () => {
       }
 
       const data = await response.json();
+
       const weatherData = {
         temperature: data.main.temp,
         description: data.weather[0].description,
@@ -83,7 +88,11 @@ const WeatherOperations: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    fetchWeather(city);
+    if (city.trim() === '') {
+      setError("City cannot be empty");
+      return;
+    }
+    fetchWeather(city.trim());
   };
 
   return (
@@ -130,6 +139,10 @@ const WeatherOperations: React.FC = () => {
             <WeatherData weather={weather} />
           </div>
         )}
+        {/* <Link href="/forecast?city=${city}" className="bg-blue-700 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+          View Forecast
+        </Link> */}
+
       </div>
     </div>
   );

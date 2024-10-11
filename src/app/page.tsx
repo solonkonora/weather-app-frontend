@@ -12,12 +12,12 @@ const Home = () => {
   >
 
       <div className="flex flex-col gap-4 items-center pt-8">
-        <p className="text-blue-800 font-bold text-7xl">Welcome To A</p>
-        <p className="text-blue-800 font-semibold text-3xl">Weather App by N.N.S</p>
+        <p className="text-blue-800 font-bold text-7xl">Welcome To A Weather App</p>
+        {/* <p className="text-blue-800 font-semibold text-3xl">Weather App by N.N.S</p> */}
       </div>
 
       <Image
-        src="/assets/images/drizzle.png"
+        src="/assets/images/clearicon.png"
         alt="My Icon"
         width={450}
         height={450}
