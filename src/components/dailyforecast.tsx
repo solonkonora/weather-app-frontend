@@ -1,97 +1,201 @@
+// "use client";
+
+// import { useEffect } from 'react';
+// import { useWeatherContext } from '../context/WeatherContext'; // Adjust the path based on your structure
+
+// const DailyForecast = () => {
+//   const { city, dailyForecast, setDailyForecast } = useWeatherContext(); // Get city and forecast from context
+
+//   useEffect(() => {
+//     const fetchForecast = async () => {
+//       if (city) {
+//         const response = await fetch(
+//           `https://api.openweathermap.org/data/3.0/onecall?q=${city}&exclude=hourly,minutely,current&appid=YOUR_API_KEY&units=metric`
+//         );
+//         const data = await response.json();
+
+//         // Check if 'daily' exists in the API response
+//         if (data.daily) {
+//           const forecastData = data.daily.map((day: any) => ({
+//             date: new Date(day.dt * 1000).toLocaleDateString(), // Format date
+//             minTemp: day.temp.min,
+//             maxTemp: day.temp.max,
+//             description: day.weather[0].description,
+//             icon: day.weather[0].icon,
+//           }));
+//           setDailyForecast(forecastData); // Store in context
+//         } else {
+//           setDailyForecast([]); // If no daily forecast, set an empty array
+//         }
+//       }
+//     };
+
+//     fetchForecast();
+//   }, [city, setDailyForecast]); // Refetch when city changes
+
+//   // Ensure dailyForecast is always an array
+//   const forecastData = dailyForecast || [];
+
+//   return (
+//     <div>
+//       <div className="flex items-center justify-start my-6">
+//         <p className="text-3xl uppercase font-bold ml-11">
+//           5-Days Forecast for {city}
+//         </p>
+//       </div>
+//       <hr className="my-2" />
+
+//       {forecastData.length > 0 ? (
+//         forecastData.map((day, index) => {
+//           const iconUrl = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
+
+//           return (
+//             <div key={index} className="flex flex-col items-center">
+//               <p>{day.date}</p>
+//               <img src={iconUrl} alt={day.description} />
+//               <p>Min: {day.minTemp}°C</p>
+//               <p>Max: {day.maxTemp}°C</p>
+//             </div>
+//           );
+//         })
+//       ) : (
+//         <p>Loading forecast data...</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// export default DailyForecast;
+
+
+
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { useWeatherContext } from "../context/WeatherContext";
+"use client";
 
-interface DailyForecast {
-  dt: number; // Timestamp for the forecast day
-  temp: {
-    day: number;
-  };
-  weather: { icon: string; description: string }[];
+import { useEffect, useState } from 'react';
+import { useWeatherContext } from '../context/WeatherContext';
+
+// Define types
+interface Coordinates {
+    lat: number;
+    lon: number;
 }
 
-const DailyForecast: React.FC = () => {
-  const [dailyForecast, setDailyForecast] = useState<DailyForecast[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+interface DailyForecast {
+    date: string; 
+    minTemp: number;
+    maxTemp: number;
+    icon: string; 
+    description: string; 
+    temperature: number;
+    day: string;
+}
 
-  const { city } = useWeatherContext();
+const DailyForecast = () => {
+  const { city, dailyForecast, setDailyForecast } = useWeatherContext();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
-  const fetchDailyWeatherData = async (city: string) => {
-    try {
-      setLoading(true); // Start loading state
+  useEffect(() => {
+    const fetchCoordinates = async (city: string): Promise<Coordinates> => {
       const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 
-      if (!apiKey) {
-        throw new Error("API key is missing");
-      }
-
-      const apiUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?q=${city}&units=metric&cnt=5&appid=${apiKey}`;
-
-      const response = await fetch(apiUrl);
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+      );
 
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Error response:", response.status, errorText);
-        throw new Error(`Failed to fetch daily weather data: ${response.status}`);
+        throw new Error('City not found');
       }
 
       const data = await response.json();
+      return {
+        lat: data.coord.lat,
+        lon: data.coord.lon,
+      };
+    };
 
-      if (data && data.list) {
-        setDailyForecast(data.list); // Set daily forecast data (7 days)
-      } else {
-        throw new Error("Invalid data structure.");
+    const fetchForecast = async (lat: number, lon: number): Promise<DailyForecast[]> => {
+      const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
+
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,current&appid=${apiKey}&units=metric`
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch forecast');
       }
-    } catch (err: any) {
-      setError(err.message || "An unexpected error occurred.");
-    } finally {
-      setLoading(false); // End loading state
-    }
-  };
 
-  useEffect(() => {
-    if (city) {
-      fetchDailyWeatherData(city);
-    }
-  }, [city]);
+      const data = await response.json();
+      return data.daily.map((day: any) => ({
+        date: new Date(day.dt * 1000).toLocaleDateString(),
+        minTemp: day.temp.min,
+        maxTemp: day.temp.max,
+        icon: day.weather[0].icon,
+        description: day.weather[0].description,
+      }));
+    };
+
+    const fetchWeatherData = async () => {
+      if (!city) {
+        console.log("No city provided");
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(''); // Reset error state
+        const { lat, lon } = await fetchCoordinates(city);
+        const forecastData = await fetchForecast(lat, lon);
+        setDailyForecast(forecastData);
+        console.log("Forecast data set in context:", forecastData);
+      } catch (error: any) {
+        console.error("Error fetching weather data:", error);
+        setError(error.message); // Set error message for UI
+        setDailyForecast([]); // Reset forecast data on error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWeatherData();
+  }, [city, setDailyForecast]);
+
+  const forecastData = dailyForecast || [];
 
   return (
     <div>
       <div className="flex items-center justify-start my-6">
-        <p className="text-3xl uppercase font-bold ml-11">5-Days Forecast for {city}</p>
+        <p className="text-3xl uppercase font-bold ml-2 sm:ml-11 sm:text-lg">
+          5-Day Forecast for {city}
+        </p>
       </div>
       <hr className="my-2" />
 
-      {error ? (
-        <p>Error: {error}</p>
-      ) : loading ? (
-        <p>Loading...</p>
+      {loading ? (
+        <p>Loading forecast data...</p>
+      ) : error ? (
+        <p className="text-red-500">{error}</p> // Display error message
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mt-4 ml-11 mr-11">
-          {dailyForecast.map((day, index) => (
-            <div
-              key={index}
-              className="flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg p-4 transition-transform duration-300 hover:scale-105"
-            >
-              <p className="font-light text-xl">
-                {new Date(day.dt * 1000).toLocaleDateString([], {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric',
-                })}
-              </p>
-              <img
-                src={`https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`}
-                alt={day.weather[0].description}
-                className="w-16 my-1"
-              />
-              <p className="font-medium text-xl">{Math.round(day.temp.day)}°C</p>
-              <p className="text-sm capitalize">{day.weather[0].description}</p>
-            </div>
-          ))}
-        </div>
+        forecastData.length > 0 ? (
+          forecastData.map((day, index) => {
+            const iconUrl = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
+
+            return (
+              <div key={index} className="flex flex-col items-center">
+                <p>{day.date}</p>
+                <img src={iconUrl} alt={`Weather icon for ${day.date}`} />
+                <p>Min: {day.minTemp}°C</p>
+                <p>Max: {day.maxTemp}°C</p>
+                <p>{day.description}</p> {/* Display description */}
+              </div>
+            );
+          })
+        ) : (
+          <p>No forecast data available.</p>
+        )
       )}
     </div>
   );

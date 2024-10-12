@@ -2,20 +2,37 @@
 import Link from 'next/link';
 
 const Navbar = () => {
-  return (
-    <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between items-center text-2xl">
-        <div className="text-white text-lg font-bold">
-          <Link href="/" className='text-2xl'>MyApp</Link>
+    return (
+      <nav className="bg-gray-800 p-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="text-white font-bold">
+            {/* Adjust text size for different screen sizes */}
+            <Link href="/" className="text-2xl lg:text-3xl sm:text-xl">O.W</Link>
+          </div>
+          <div className="space-x-4">
+            {/* Apply responsive text sizes */}
+            {/* <Link
+              href="/"
+              className="text-white hover:text-gray-700 transition duration-300 text-lg lg:text-xl sm:text-sm"
+            >
+              Home
+            </Link> */}
+            <Link
+              href="/dashboards"
+              className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="/charts"
+              className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"
+            >
+              Forecast
+            </Link>
+          </div>
         </div>
-        <div className="space-x-4 just">
-          <Link href="/" className="text-white hover:text-gray-700 transition duration-300">Home</Link>
-          <Link href="dashboards" className="text-white hover:text-gray-400 transition duration-300">Dashboard</Link>
-          <Link href="charts" className="text-white hover:text-gray-400 transition duration-300">Forecast</Link>
-        </div>
-      </div>
-    </nav>
-  );
+      </nav>
+    );
 };
 
 export default Navbar;
