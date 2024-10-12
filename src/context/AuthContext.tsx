@@ -1,37 +1,89 @@
 // context/AuthContext.tsx
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, Dispatch, SetStateAction } from 'react';
+import { API_BASE_URL } from '../providers/constants/constants';
 
 interface AuthContextType {
   isAuthenticated: boolean;
   login: () => void;
   logout: () => void;
+
+  setCurrentUser: Dispatch<SetStateAction<null | User>>;
+  currentUser: null | User;
+  currentUserLoading: boolean;
+
+  setRefetchCurrentUser: Dispatch<SetStateAction<boolean>>;
+}
+
+interface User {
+  _id: string;
+  id: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [currentUserLoading, setCurrentUserLoading] = useState<boolean>(false);
+  const [refetchCurrentUser, setRefetchCurrentUser] = useState<boolean>(false);
+
+  const isAuthenticated = useMemo(() => {
+    if (currentUserLoading || !currentUser) return false;
+
+    if (currentUser && currentUser?._id) return true;
+
+    return false;
+  }, [currentUserLoading, currentUser])
 
   useEffect(() => {
-    // Check authentication status, e.g., from localStorage or cookies
-    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
-    setIsAuthenticated(authStatus);
-  }, []);
+    const token = localStorage.getItem("token");
+    setCurrentUserLoading(true);
+
+    if (!token) {
+      setCurrentUserLoading(false);
+      return;
+    }
+
+    fetch(API_BASE_URL + "/auth/current-user", {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      }
+    })
+      .then((res) => res.json())
+      .then(({ data, message }) => {
+        setCurrentUser(data);
+      })
+      .finally(() => {
+        setCurrentUserLoading(false);
+      });
+  }, [refetchCurrentUser]);
 
   const login = () => {
-    setIsAuthenticated(true);
+    setCurrentUser(null);
     localStorage.setItem('isAuthenticated', 'true');
   };
 
   const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.setItem('isAuthenticated', 'false');
+    setCurrentUser(null);
+    localStorage.removeItem("token");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{
+      isAuthenticated,
+      login,
+      logout,
+      currentUser,
+      setCurrentUser,
+      currentUserLoading,
+
+      setRefetchCurrentUser,
+    }}>
       {children}
     </AuthContext.Provider>
   );
