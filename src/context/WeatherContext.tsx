@@ -45,6 +45,7 @@ import {
 
 // Define a DailyForecast type (adjust as needed based on the API response)
 interface DailyForecast {
+  day: string;
   minTemp: number;
   maxTemp: number;
   date: string;

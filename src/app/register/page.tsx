@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { baseUrlF, signupUrl } from "@/src/providers/constants/constants";
 import { useRouter } from "next/navigation";
 import Spinner from "@/src/components/molecules/spinners";
 import Link from "next/link";
 import Toast from "@/src/components/molecules/toast";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "@/src/providers/constants/constants";
 
 const RegistrationForm = () => {
   const router = useRouter();
@@ -76,7 +76,7 @@ const RegistrationForm = () => {
     console.log("Submitting registration with values:", values);
 
     try {
-      const res = await fetch(signupUrl, {
+      const res = await fetch(API_BASE_URL + "/auth/signup", {
         method: "POST",
         mode: "cors",
         headers: {

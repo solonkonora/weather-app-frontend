@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { loginUrl } from "@/src/providers/constants/constants";
 import { useRouter } from "next/navigation";
 import Spinner from "@/src/components/molecules/spinners";
 import Link from "next/link";
 import Toast from "@/src/components/molecules/toast";
 import { toast } from "react-toastify";
+import { API_BASE_URL } from "@/src/providers/constants/constants";
 
-// const loginUrl = "http://localhost:3000/auth/login";
 const LoginForm = () => {
   const router = useRouter();
   const [values, setValues] = useState({
@@ -67,7 +66,7 @@ const LoginForm = () => {
 
     setIsLoading(true);
     try {
-      const res = await fetch(loginUrl, {
+      const res = await fetch(API_BASE_URL + "/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
