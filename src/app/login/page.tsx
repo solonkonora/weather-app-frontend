@@ -107,10 +107,10 @@ const LoginForm = () => {
       <div className="bg-white shadow-md rounded-lg p-10 w-96 shadow-blue-400">
         <h2 className="text-3xl font-bold mb-8 text-center">Log In</h2>
         <form>
-          <div className="mb-6">
+          <div className="mb-6 text-black">
             <label
               htmlFor="email"
-              className="block text-lg font-medium text-gray-700"
+              className="block text-lg font-medium text-black"
             >
               Email
             </label>

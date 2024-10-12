@@ -24,7 +24,7 @@ const Home = () => {
       <div className="flex flex-col w-[90%] md:w-[80%] lg:w-[60%] items-center">
         <Link
           href="/login"
-          className="bg-white text-chacoal text-xl md:text-2xl lg:text-3xl px-8 md:px-12 lg:px-16 py-2 rounded-full mt-20 md:mt-32 lg:mb-40 font-bold"
+          className="bg-white text-black text-xl md:text-2xl lg:text-3xl px-8 md:px-12 lg:px-16 py-2 rounded-full mt-20 md:mt-32 lg:mb-40 font-bold"
         >
           Get Started
         </Link>
