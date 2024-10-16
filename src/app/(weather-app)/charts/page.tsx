@@ -1,7 +1,7 @@
 "use client"
 import Navbar from '@/src/components/navbar';
 import Forecast from '@/src/components/forecast';
-import DailyForecast from '@/src/components/dailyforecast';
+// import DailyForecast from '@/src/components/dailyforecast';
 
 const ForecastPage = () => {
 
@@ -10,7 +10,7 @@ const ForecastPage = () => {
       <div className="flex-grow">
         <Navbar />
         <Forecast />
-        <DailyForecast />
+        {/* <DailyForecast /> */}
       </div>
     </div>
   );

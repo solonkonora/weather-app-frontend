@@ -1,4 +1,87 @@
-import React from 'react';
+
+// import React from 'react';
+// import { Line } from 'react-chartjs-2';
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   ChartOptions,
+// } from 'chart.js';
+
+// // Registering necessary components
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   Title,
+//   Tooltip,
+//   Legend
+// );
+
+// const LineChart: React.FC = () => {
+//   const hourlyData = {
+//     labels: ["08:00", "09:00", "10:00", "11:00", "12:00"], // Example time labels
+//     temperature: [20, 21, 23, 24, 26], // Example temperature values
+//   };
+
+//   const chartData = {
+//     labels: hourlyData.labels, // Time labels for the x-axis
+//     datasets: [
+//       {
+//         label: 'Temperature (°C)',
+//         data: hourlyData.temperature, // Temperature values on the y-axis
+//         borderColor: 'rgba(75, 192, 192, 1)',
+//         backgroundColor: 'rgba(75, 192, 192, 0.2)',
+//         fill: true,
+//         yAxisID: 'y', // Single y-axis for temperature
+//       },
+//     ],
+//   };
+
+//   // Properly typed chart options
+//   const chartOptions: ChartOptions<'line'> = {
+//     responsive: true,
+//     interaction: {
+//       mode: 'index',
+//       intersect: false,
+//     },
+//     scales: {
+//       x: {
+//         title: {
+//           display: true,
+//           text: 'Time', // Label for the x-axis showing time
+//         },
+//       },
+//       y: {
+//         type: 'linear',
+//         position: 'left',
+//         title: {
+//           display: true,
+//           text: 'Temperature (°C)', // Label for the y-axis
+//         },
+//         beginAtZero: true, // Start the temperature axis at 0
+//       },
+//     },
+//   };
+
+//   return (
+//     <div>
+//       <h2>Hourly Temperature Forecast</h2>
+//       <Line data={chartData} options={chartOptions} />
+//     </div>
+//   );
+// };
+
+// export default LineChart;
+
+"use client"
+import React, { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -9,6 +92,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  ChartOptions,
 } from 'chart.js';
 
 // Registering necessary components
@@ -22,96 +106,82 @@ ChartJS.register(
   Legend
 );
 
-interface LineChartProps {
-  data: {
-    labels: string[]; // Time labels for the x-axis
-    temperature: number[];
-    humidity: number[];
-    windSpeed: number[];
-  };
-}
+const LineChart: React.FC = () => {
+  const [chartData, setChartData] = useState({
+    labels: [],
+    temperature: [],
+  });
 
-const LineChart: React.FC<LineChartProps> = ({ data }) => {
-  const chartData = {
-    labels: data.labels,
-    datasets: [
-      {
-        label: 'Temperature (°C)',
-        data: data.temperature,
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
-        yAxisID: 'y-axis-1', // Link to the first y-axis
-      },
-      {
-        label: 'Humidity (%)',
-        data: data.humidity,
-        borderColor: 'rgba(153, 102, 255, 1)',
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-        fill: true,
-        yAxisID: 'y-axis-2', // Link to the second y-axis
-      },
-      {
-        label: 'Wind Speed (m/s)',
-        data: data.windSpeed,
-        borderColor: 'rgba(255, 159, 64, 1)',
-        backgroundColor: 'rgba(255, 159, 64, 0.2)',
-        fill: true,
-        yAxisID: 'y-axis-3', // Link to the third y-axis
-      },
-    ],
-  };
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      try {
+        // Replace with your API endpoint
+        const response = await fetch('https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}'); 
+        const data = await response.json();
+        
+        // Transform the data to match the chart requirements
+        const labels = data.hourly.map((item: any) => item.time); // Assuming `time` holds the time labels
+        const temperatures = data.hourly.map((item: any) => item.temperature); // Assuming `temperature` holds the temperature values
 
-  const chartOptions = {
+        setChartData({
+          labels: labels,
+          temperature: temperatures,
+        });
+      } catch (error) {
+        console.error('Error fetching weather data:', error);
+      }
+    };
+
+    fetchWeatherData();
+  }, []); // Empty dependency array means this effect runs once on mount
+
+  const chartOptions: ChartOptions<'line'> = {
     responsive: true,
     interaction: {
-      mode: 'index' as const,
+      mode: 'index',
       intersect: false,
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: 'Time',
+          text: 'Time', // Label for the x-axis showing time
         },
       },
-    //   'y-axis-1': {
-    //     type: 'linear',
-    //     position: 'left',
-    //     title: {
-    //       display: true,
-    //       text: 'Temperature (°C)',
-    //     },
-    //     beginAtZero: true,
-    //   },
-    //   'y-axis-2': {
-    //     type: 'linear',
-    //     position: 'right',
-    //     title: {
-    //       display: true,
-    //       text: 'Humidity (%)',
-    //     },
-    //     beginAtZero: true,
-    //     grid: {
-    //       drawOnChartArea: false, // Don't draw grid lines for this axis
-    //     },
-    //   },
-    //   'y-axis-3': {
-    //     type: 'linear',
-    //     position: 'right',
-    //     title: {
-    //       display: true,
-    //       text: 'Wind Speed (m/s)',
-    //     },
-    //     beginAtZero: true,
-    //     grid: {
-    //       drawOnChartArea: false, // Don't draw grid lines for this axis
-    //     },
-    //   },
+      y: {
+        type: 'linear',
+        position: 'left',
+        title: {
+          display: true,
+          text: 'Temperature (°C)', // Label for the y-axis
+        },
+        beginAtZero: true, // Start the temperature axis at 0
+      },
     },
   };
 
-  return <Line data={chartData} options={chartOptions} />;
+  return (
+    <div>
+      <h2>Hourly Temperature Forecast</h2>
+      <Line
+        data={{
+          labels: chartData.labels,
+          datasets: [
+            {
+              label: 'Temperature (°C)',
+              data: chartData.temperature,
+              borderColor: 'rgba(75, 192, 192, 1)',
+              backgroundColor: 'rgba(75, 192, 192, 0.2)',
+              fill: true,
+              yAxisID: 'y'
+            },
+          ],
+        }}
+        options={chartOptions}
+      />
+    </div>
+  );
 };
 
 export default LineChart;
+

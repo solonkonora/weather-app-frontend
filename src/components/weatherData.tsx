@@ -13,46 +13,6 @@ interface WeatherProps {
 
 const WeatherData: React.FC<WeatherProps> = ({ weather }) => {
   return (
-    // <div className="text-center mt-6">
-    //   <div className='flex flex-row items-center justify-between text-white py-3'>
-    //     <img src={weather.icon} alt={weather.description} className="w-52 h-52" />
-    //     <p className="text-white font-bold text-5xl">{weather.temperature}°C</p>
-    //     <div className='flex flex-col space-y-2'>
-
-    //       <div className='flex flex-light text-sm items-center justify-center'>
-    //         <p className="text-lg text-white flex items-center gap-2">
-    //           <img
-    //             src="/assets/images/mist.png"
-    //             alt="Humidity Icon"
-    //             className="w-6 h-6"
-    //           />
-    //           Description: {weather.description}
-    //         </p>
-    //       </div>
-
-    //       <div className='flex flex-light text-sm items-center justify-center'>
-    //         <p className="text-lg text-white flex items-center gap-2">
-    //           <img
-    //             src="/assets/images/humidity.png"
-    //             alt="Humidity Icon"
-    //             className="w-6 h-6 font-semibold"
-    //           />
-    //           Humidity: {weather.humidity}%
-    //         </p>
-    //       </div>
-    //       <div className='flex flex-light text-sm items-center justify-center'>
-    //         <p className="text-lg text-white flex items-center gap-2">
-    //           <img
-    //             src="/assets/images/wind.png"
-    //             alt="Humidity Icon"
-    //             className="w-6 h-6"
-    //           />
-    //           Wind Speed: {weather.windSpeed}%
-    //         </p>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
     <div className="text-center mt-6">
   {/* Use flex-col for mobile and flex-row for medium screens and above */}
   <div className="flex flex-col md:flex-row items-center justify-between text-white py-3 space-y-4 md:space-y-0">
