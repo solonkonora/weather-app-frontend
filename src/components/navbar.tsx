@@ -11,12 +11,12 @@ const Navbar = () => {
           </div>
           <div className="space-x-4">
             
-            <Link
+            {/* <Link
               href="/"
               className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"
             >
               Logout
-            </Link>
+            </Link> */}
             {/* <Link
               href="/charts"
               className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"

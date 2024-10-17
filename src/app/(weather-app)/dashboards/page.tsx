@@ -5,7 +5,7 @@ import Navbar from '@/src/components/navbar';
 import Operations from '../../../components/weatherOperations';
 import Forecast from '@/src/components/forecast';
 import DailyForecast from '@/src/components/dailyforecast';
-// import LineChart from '@/src/components/linechart';
+import LineChart from '@/src/components/linechart';
 
 const Dashboard = () => {
   return (
@@ -14,7 +14,7 @@ const Dashboard = () => {
       <Operations />
       <Forecast/>
       <DailyForecast />
-      {/* <LineChart /> */}
+      <LineChart />
     </div>
   );
 };

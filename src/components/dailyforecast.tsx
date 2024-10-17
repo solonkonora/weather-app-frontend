@@ -156,8 +156,8 @@ const DailyForecast = () => {
     return (
         <div>
             <div className="flex items-center justify-start my-6">
-                <p className="text-3xl uppercase font-bold ml-2 sm:ml-11 sm:text-lg">
-                    5-Day Forecast for {city || "current location"}
+            <p className="text-lg uppercase font-bold ml-2 sm:ml-11 sm:text-2xl md:text-3xl">
+            5-Day Forecast for {city || "current location"}
                 </p>
             </div>
             <hr className="my-2" />
@@ -172,17 +172,17 @@ const DailyForecast = () => {
                         const iconUrl = `http://openweathermap.org/img/wn/${day.icon}@2x.png`;
     
                         return (
-                            <div key={index} className="flex items-center bg-white rounded-lg shadow-md p-4 space-x-6">
-                                <div className="flex flex-col items-start">
+                            <div key={index} className="flex items-center bg-white rounded-lg shadow-md p-4 space-x-6 ">
+                                <div className="flex flex-col items-start ml-2 sm:ml-11">
                                     <p className="text-lg font-semibold text-gray-700">{day.day}</p> {/* Display Day Name */}
                                     <p className="text-gray-500">{day.date}</p> {/* Display Date */}
                                 </div>
-                                <img className="w-12 h-12" src={iconUrl} alt={`Weather icon for ${day.date}`} /> {/* Weather Icon */}
+                                <img className="w-16 h-16" src={iconUrl} alt={`Weather icon for ${day.date}`} /> {/* Weather Icon */}
                                 <div className="flex flex-col">
                                     <p className="text-blue-600 font-bold">Min: {day.minTemp}°C</p>
                                     <p className="text-red-600 font-bold">Max: {day.maxTemp}°C</p>
                                 </div>
-                                <p className="italic text-gray-600">{day.description}</p> {/* Weather Description */}
+                                {/* <p className="italic text-gray-600">{day.description}</p> Weather Description */}
                             </div>
                         );
                     })}
