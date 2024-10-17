@@ -10,25 +10,19 @@ const Navbar = () => {
             <Link href="/" className="text-2xl lg:text-3xl sm:text-xl">O.W</Link>
           </div>
           <div className="space-x-4">
-            {/* Apply responsive text sizes */}
+            
             {/* <Link
               href="/"
-              className="text-white hover:text-gray-700 transition duration-300 text-lg lg:text-xl sm:text-sm"
-            >
-              Home
-            </Link> */}
-            <Link
-              href="/dashboards"
               className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"
             >
-              Dashboard
-            </Link>
-            <Link
+              Logout
+            </Link> */}
+            {/* <Link
               href="/charts"
               className="text-white hover:text-gray-400 transition duration-300 text-lg lg:text-xl sm:text-sm"
             >
               Forecast
-            </Link>
+            </Link> */}
           </div>
         </div>
       </nav>

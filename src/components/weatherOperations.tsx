@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WeatherData from './weatherData';
 import { useWeatherContext } from '../context/WeatherContext';
 
@@ -23,7 +23,7 @@ const WeatherOperations: React.FC = () => {
     switch (description.toLowerCase()) {
       case 'rain':
         return '/assets/images/rain.png';
-      case 'heavy intensive rain':
+      case 'heavy intensity rain':
         return '/assets/images/rain.png';
       case 'very heavy rain':
         return '/assets/images/rain.png';
@@ -31,35 +31,46 @@ const WeatherOperations: React.FC = () => {
         return '/assets/images/drizzle.png';
       case 'moderate rain':
         return '/assets/images/drizzle.png';
+      case 'drizzle':
+        return '/assets/images/drizzle.png';
       case 'clear sky':
         return '/assets/images/sunny.jpg';
       case 'few clouds':
         return '/assets/images/clear.png';
       case 'overcast clouds':
         return '/assets/images/clouds.png';
+      case 'broken clouds':
+        return '/assets/images/clouds.png';
       case 'snow':
         return '/assets/images/snow.jpg';
       case 'light snow':
         return '/assets/images/snow.jpg';
       default:
-        return '/assets/images/drizzle.png';
+        return '/assets/images/house3.jpg';
     }
   };
 
   // Function to fetch weather data
-  const fetchWeather = async (city: string) => {
+  const fetchWeather = async (location: string | { lat: number, lon: number }) => {
     try {
       setLoading(true);
       setError(null);
       setWeather(null); // Clear previous weather data
 
       const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
-      const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`
-      );
+      let url;
+
+      if (typeof location === 'string') {
+        url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`;
+      } else {
+        const { lat, lon } = location;
+        url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+      }
+
+      const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch weather data');
+        throw new Error('City not found');
       }
 
       const data = await response.json();
@@ -83,6 +94,25 @@ const WeatherOperations: React.FC = () => {
       setWeather(null); // Clear weather data on error
     }
   };
+
+  // Fetch current location weather on component mount
+  useEffect(() => {
+    if (!city) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          fetchWeather({ lat: latitude, lon: longitude });
+        },
+        (error) => {
+          console.error('Error getting location:', error);
+          fetchWeather('New York'); // Default to New York if location access fails
+        }
+      );
+    } else {
+      fetchWeather(city.trim());
+    }
+  }, [city]);
+  
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,11 +158,11 @@ const WeatherOperations: React.FC = () => {
         {/* Error state */}
         {error && <div className="text-red-500 text-center">Error: {error}</div>}
 
-        {/* Render WeatherData only after a successful search */}
+        {/* Render WeatherData only after a successful search or geolocation fetch */}
         {weather && (
           <div>
             <h3 className="text-lg font-semibold text-white mb-4 text-center">
-              Weather in {city}
+              Weather in {city || "current location"}
             </h3>
             <WeatherData weather={weather} />
           </div>
@@ -143,3 +173,5 @@ const WeatherOperations: React.FC = () => {
 };
 
 export default WeatherOperations;
+
+
