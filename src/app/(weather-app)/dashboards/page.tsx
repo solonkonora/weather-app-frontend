@@ -4,7 +4,7 @@ import React from 'react';
 import Navbar from '@/src/components/navbar';
 import Operations from '../../../components/weatherOperations';
 import Forecast from '@/src/components/forecast';
-// import DailyForecast from '@/src/components/dailyforecast';
+import DailyForecast from '@/src/components/dailyforecast';
 // import LineChart from '@/src/components/linechart';
 
 const Dashboard = () => {
@@ -13,7 +13,7 @@ const Dashboard = () => {
       <Navbar />
       <Operations />
       <Forecast/>
-      {/* <DailyForecast /> */}
+      <DailyForecast />
       {/* <LineChart /> */}
     </div>
   );

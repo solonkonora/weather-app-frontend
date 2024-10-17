@@ -110,7 +110,7 @@ const Forecast: React.FC = () => {
           {hourlyForecast.map((hour, index) => (
             <div
               key={index}
-              className="flex flex-col items-center justify-center bg-white bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg p-4 transition-transform duration-300 hover:scale-105 mb-4 sm:mb-0 sm:mr-4"
+              className="flex flex-col items-center justify-center bg-blue-300 bg-opacity-20 backdrop-blur-md rounded-lg shadow-lg p-4 transition-transform duration-300 hover:scale-105 mb-4 sm:mb-0 sm:mr-4"
             >
               <p className="font-light text-xl">
                 {new Date(hour.dt * 1000).toLocaleTimeString([], {
